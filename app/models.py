@@ -11,6 +11,8 @@ class Studio(models.Model):
 
 
 class Genre(models.Model):
+    tmdb_id = models.IntegerField(blank=True, unique=True, default=None)
+
     name = models.CharField(max_length=100)
 
     def __str__(self):
@@ -36,7 +38,6 @@ class Person(models.Model):
 
 class Movie(models.Model):
     title = models.CharField(max_length=100)
-    year = models.IntegerField(max_length=4)
     country = models.CharField(max_length=100)
     release_date = models.DateTimeField()
     overview = models.TextField(blank=True)
