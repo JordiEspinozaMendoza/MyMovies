@@ -38,12 +38,10 @@ class Person(models.Model):
 
 class Movie(models.Model):
     title = models.CharField(max_length=100)
-    country = models.CharField(max_length=100)
     release_date = models.DateTimeField()
     overview = models.TextField(blank=True)
-    duration = models.IntegerField(blank=True)
     poster_path = models.URLField()
-    studio = models.ForeignKey(Studio, on_delete=models.CASCADE)
+    studio = models.ForeignKey(Studio, on_delete=models.CASCADE, null=True)
     genres = models.ManyToManyField(Genre)
     tmdb_id = models.IntegerField(blank=True, unique=True)
     credits = models.ManyToManyField(Person, through="MovieCredit")
