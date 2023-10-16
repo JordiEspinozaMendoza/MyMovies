@@ -1,0 +1,16 @@
+{% extends 'layout.html' %} {% load static %} {% block content %}
+
+<h1>Home</h1>
+
+<div class="movies_list">
+  {% for movie in movies %}
+  <div class="movie_item">
+    <img
+      src="https://image.tmdb.org/t/p/original{{ movie.poster_path }}"
+      alt="{{ movie.title }}"
+    />
+    <h2>{{ movie.title }}</h2>
+  </div>
+  {% endfor %}
+</div>
+{% endblock content%}

@@ -1,0 +1,28 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, shrink-to-fit=no"
+    />
+    <link rel="stylesheet" href="{% static 'styles.css' %}" />
+    <title>My Movies App</title>
+  </head>
+
+  <body>
+    <nav>
+      <span>My Movies App</span>
+    </nav>
+
+    {% block content %} {% endblock %}
+
+    <div class="footer-dark">
+      <footer>
+        <h3>My Movies App</h3>
+      </footer>
+    </div>
+  </body>
+</html>
