@@ -5,10 +5,14 @@
 <div class="movies_list">
   {% for movie in movies %}
   <div class="movie_item">
-    <img
-      src="https://image.tmdb.org/t/p/original{{ movie.poster_path }}"
-      alt="{{ movie.title }}"
-    />
+    <div class="movie_poster">
+      <a href="movies/{{ movie.tmdb_id }}">
+        <img
+          src="https://image.tmdb.org/t/p/original{{ movie.poster_path }}"
+          alt="{{ movie.title }}"
+        />
+      </a>
+    </div>
     <h2>{{ movie.title }}</h2>
   </div>
   {% endfor %}

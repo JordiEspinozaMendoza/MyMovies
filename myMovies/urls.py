@@ -17,4 +17,9 @@ from django.contrib import admin
 from django.urls import path
 from app import views
 
-urlpatterns = [path("admin/", admin.site.urls), path("movies/", views.getMoviesList)]
+urlpatterns = [
+    path("admin/", admin.site.urls),
+    path("", views.getMoviesList),
+    path("movies/<int:id>", views.getMovieDetails),
+    path("movies/", views.getMoviesList),
+]
