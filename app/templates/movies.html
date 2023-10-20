@@ -6,7 +6,7 @@
   {% for movie in movies %}
   <div class="movie_item">
     <div class="movie_poster">
-      <a href="movies/{{ movie.tmdb_id }}">
+      <a href="{% url 'movieDetails' movie.tmdb_id %}">
         <img
           src="https://image.tmdb.org/t/p/original{{ movie.poster_path }}"
           alt="{{ movie.title }}"

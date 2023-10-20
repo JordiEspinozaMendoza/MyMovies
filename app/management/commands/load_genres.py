@@ -1,25 +1,15 @@
 from django.core.management.base import BaseCommand, CommandError
 from app.models import Genre
-import requests
+from app.utils import fetchTMDBApi
 import json
-import os
-from dotenv import load_dotenv
-
-load_dotenv()
 
 
 class Command(BaseCommand):
     help = "Load genres from TMDB API"
 
     def handle(self, *args, **options):
-        url = os.environ.get("TMDB_API_URL")
+        response = fetchTMDBApi("/genre/movie/list")
 
-        headers = {
-            "accept": "application/json",
-            "Authorization": "Bearer " + os.environ.get("TMDB_READ_ACCESS_TOKEN"),
-        }
-
-        response = requests.get(url + "/genre/movie/list", headers=headers)
         genres = json.dumps(response.json()["genres"])
 
         try:

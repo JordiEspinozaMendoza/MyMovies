@@ -12,6 +12,8 @@ nav {
     padding: 1rem;
     background-color: #1a1a1a;
     color: #fff;
+    position: sticky;
+    top: 0;
 }
 
 footer {

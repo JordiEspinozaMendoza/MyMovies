@@ -19,7 +19,8 @@ from app import views
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("", views.getMoviesList),
-    path("movies/<int:id>", views.getMovieDetails),
-    path("movies/", views.getMoviesList),
+    path("", views.getMoviesList, name="home"),
+    path("movies/<int:id>", views.getMovieDetails, name="movieDetails"),
+    path("people/<int:id>", views.getPersonDetails, name="personDetails"),
+    path("movies/", views.getMoviesList, name="movies"),
 ]

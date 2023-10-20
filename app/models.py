@@ -28,9 +28,13 @@ class Job(models.Model):
 
 class Person(models.Model):
     name = models.CharField(max_length=100)
-    birthdate = models.DateField()
-    imageURL = models.URLField()
-    country = models.CharField(max_length=100)
+    birthdate = models.DateField(blank=True, null=True, default=None)
+    place_of_birth = models.CharField(
+        max_length=100, blank=True, default=None, null=True
+    )
+    profile_path = models.URLField(blank=True, default=None, null=True)
+    known_for_department = models.CharField(max_length=100, blank=True)
+    tmdb_id = models.IntegerField(blank=True, unique=True, default=None)
 
     def __str__(self):
         return self.name
@@ -52,8 +56,15 @@ class Movie(models.Model):
 
 class MovieCredit(models.Model):
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
-    person = models.ForeignKey(Person, on_delete=models.CASCADE)
-    role = models.CharField(max_length=100)
+    person = models.ForeignKey(Person, on_delete=models.CASCADE, null=True)
+    personTMDBId = models.IntegerField(blank=True, default=None)
+    name = models.CharField(max_length=100, blank=True)
+    character = models.CharField(max_length=100, blank=True)
+    profile_path = models.URLField(blank=True, default=None, null=True)
+    known_for_department = models.CharField(max_length=100, blank=True)
+
+    def __str__(self):
+        return self.name
 
 
 class MovieReview(models.Model):

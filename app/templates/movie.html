@@ -1,7 +1,7 @@
 {% extends 'layout.html' %} {% block content %}
 
 <div class="movie_page">
-  <a href="/movies" class="return">Return to movies page</a>
+  <a href="{% url 'home' %}" class="return">Return to movies page</a>
   <div class="movie_page_title">
     <h1>{{ movie.title }}</h1>
   </div>
@@ -10,10 +10,33 @@
       <img
         src="https://image.tmdb.org/t/p/original{{ movie.poster_path }}"
         alt="{{ movie.title }}"
+        loading="lazy"
       />
     </div>
     <div class="movie_page_description">
       <p>{{ movie.overview }}</p>
+      {% if genres %}
+      <h3>Genres</h3>
+      <ul>
+        {% for genre in genres %}
+        <li>{{ genre.name }}</li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+      <h3>Movie credits</h3>
+      {% if movieCredits %}
+      <ul>
+        {% for credit in movieCredits %}
+        <li>
+          <a href="{% url 'personDetails' credit.personTMDBId %}">
+            {{ credit.name }}
+          </a>
+          as {{ credit.character }}
+        </li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+      <h3>Vote or leave a review</h3>
     </div>
   </div>
 </div>
