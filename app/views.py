@@ -4,7 +4,7 @@ import json
 from app.utils import fetchTMDBApi
 from django.contrib.auth.views import LoginView
 from .forms import CustomLoginForm, MovieReviewForm, CustomSignUpForm
-from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth import login
 
 
 def getMoviesList(request):
@@ -39,6 +39,7 @@ def getMovieDetails(request, id):
 
             movieCredits = MovieCredit.objects.filter(movie=movie)
 
+        movieReviews = MovieReview.objects.filter(movie=movie)
         return render(
             request,
             "movie.html",
@@ -46,6 +47,7 @@ def getMovieDetails(request, id):
                 "movie": movie,
                 "genres": genres,
                 "movieCredits": movieCredits,
+                "reviews": movieReviews,
                 "form": MovieReviewForm(),
             },
         )
@@ -148,7 +150,7 @@ def CustomSignUpView(request):
     if request.method == "POST":
         form = CustomSignUpForm(request.POST)
         if form.is_valid():
-            user = form.save()  # Save user
+            user = form.save()
             login(request, user)
             return redirect("/")
     else:

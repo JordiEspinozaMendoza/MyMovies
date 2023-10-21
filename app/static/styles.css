@@ -96,6 +96,34 @@ footer {
     overflow-y: scroll;
 }
 
+.reviews_list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-auto-rows: 1fr;
+}
+
+.review {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    padding: 1rem;
+    align-items: center;
+}
+
+.rating span {
+    font-size: 1.5rem;
+    font-weight: bold;
+    background-color: #4CAF50;
+    color: #fff;
+    padding: 0.5rem;
+}
+
+
+.review_text p {
+    text-align: justify;
+    font-size: 0.8rem;
+}
+
 /* LOGIN */
 
 .login-page {
@@ -140,6 +168,7 @@ button {
     cursor: pointer;
     width: auto;
 }
+
 
 @media screen and (max-width: 768px) {
     .movies_list {

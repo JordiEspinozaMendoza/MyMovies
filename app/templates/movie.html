@@ -38,11 +38,42 @@
         </ul>
       </div>
       <h3>Vote or leave a review</h3>
+      {% if user.is_authenticated %}
       <form method="POST" action="{% url 'submitReview' movie.tmdb_id %}">
         {% csrf_token %} {{ form }}
         <input type="submit" value="Submit" />
       </form>
+      {% else %}
+      <p>
+        You must be logged in to leave a review.
+        <a href="{% url 'login' %}">Login</a>
+      </p>
+      {% endif %}
     </div>
   </div>
+  <div class="page_footer">
+    <h2>Movie Reviews</h2>
+
+    {% if reviews %}
+    <div class="reviews_list">
+      {% for review in reviews %}
+      <div class="review">
+        <div class="rating">
+          <span>{{ review.rating }}</span>
+        </div>
+        <div class="review_text">
+          {% if review.user.first_name %}
+          <b>{{ review.user.first_name }} said:</b>
+          {% else %}
+          <b>{{ review.user.username }} said:</b>
+          {% endif %}
+          <p>{{ review.review }}</p>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </div>
 </div>
+
 {% endblock content%}
