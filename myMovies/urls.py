@@ -22,8 +22,10 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("accounts/login/", views.CustomLoginView.as_view(), name="login"),
     path("accounts/logout/", auth_views.LogoutView.as_view(), name="logout"),
+    path("accounts/signup/", views.CustomSignUpView, name="logout"),
     path("", views.getMoviesList, name="home"),
     path("movies/<int:id>", views.getMovieDetails, name="movieDetails"),
     path("people/<int:id>", views.getPersonDetails, name="personDetails"),
     path("movies/", views.getMoviesList, name="movies"),
+    path("submitReview/<int:id>", views.submitReview, name="submitReview"),
 ]

@@ -14,6 +14,7 @@
       />
     </div>
     <div class="page_description">
+      <b> {{ message }} </b>
       <p>{{ movie.overview }}</p>
       {% if genres %}
       <h3>Genres</h3>
@@ -24,19 +25,23 @@
       </ul>
       {% endif %}
       <h3>Movie credits</h3>
-      {% if movieCredits %}
-      <ul>
-        {% for credit in movieCredits %}
-        <li>
-          <a href="{% url 'personDetails' credit.personTMDBId %}">
-            {{ credit.name }}
-          </a>
-          as {{ credit.character }}
-        </li>
-        {% endfor %}
-      </ul>
-      {% endif %}
+      <div class="credits">
+        <ul>
+          {% for credit in movieCredits %}
+          <li>
+            <a href="{% url 'personDetails' credit.personTMDBId %}">
+              {{ credit.name }}
+            </a>
+            as {{ credit.character }}
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
       <h3>Vote or leave a review</h3>
+      <form method="POST" action="{% url 'submitReview' movie.tmdb_id %}">
+        {% csrf_token %} {{ form }}
+        <input type="submit" value="Submit" />
+      </form>
     </div>
   </div>
 </div>

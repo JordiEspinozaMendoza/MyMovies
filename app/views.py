@@ -1,9 +1,10 @@
-from django.shortcuts import render
 from .models import *
+from django.shortcuts import render, redirect
 import json
 from app.utils import fetchTMDBApi
 from django.contrib.auth.views import LoginView
-from .forms import CustomLoginForm, CustomRegisterForm
+from .forms import CustomLoginForm, MovieReviewForm, CustomSignUpForm
+from django.contrib.auth import login, logout, authenticate
 
 
 def getMoviesList(request):
@@ -41,7 +42,53 @@ def getMovieDetails(request, id):
         return render(
             request,
             "movie.html",
-            {"movie": movie, "genres": genres, "movieCredits": movieCredits},
+            {
+                "movie": movie,
+                "genres": genres,
+                "movieCredits": movieCredits,
+                "form": MovieReviewForm(),
+            },
+        )
+
+    except Movie.DoesNotExist:
+        return render(request, "404.html", {"message": "Movie not found."})
+
+
+def submitReview(request, id):
+    try:
+        movie = Movie.objects.get(tmdb_id=id)
+        form = MovieReviewForm(request.POST)
+
+        if form.is_valid():
+            MovieReview.objects.create(
+                movie=movie,
+                user=request.user,
+                rating=form.cleaned_data["rating"],
+                review=form.cleaned_data["review"],
+            )
+
+            return render(
+                request,
+                "movie.html",
+                {
+                    "movie": movie,
+                    "genres": movie.genres.all(),
+                    "movieCredits": MovieCredit.objects.filter(movie=movie),
+                    "form": MovieReviewForm(),
+                    "message": "Review submitted successfully.",
+                },
+            )
+
+        return render(
+            request,
+            "movie.html",
+            {
+                "movie": movie,
+                "genres": movie.genres.all(),
+                "movieCredits": MovieCredit.objects.filter(movie=movie),
+                "form": form,
+                "message": "Invalid form.",
+            },
         )
 
     except Movie.DoesNotExist:
@@ -92,3 +139,19 @@ def getPersonDetails(request, id):
 class CustomLoginView(LoginView):
     form_class = CustomLoginForm
     template_name = "login.html"
+
+
+def CustomSignUpView(request):
+    if request.user.is_authenticated:
+        return redirect("/")
+
+    if request.method == "POST":
+        form = CustomSignUpForm(request.POST)
+        if form.is_valid():
+            user = form.save()  # Save user
+            login(request, user)
+            return redirect("/")
+    else:
+        form = CustomSignUpForm()
+
+    return render(request, "sign_up.html", {"form": form})

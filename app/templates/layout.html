@@ -18,15 +18,13 @@
 
       <div>
         {% if user.is_authenticated %}
-        <span class="navbar-text"
-          >Logged in as {{ user.username|title }} |
-        </span>
-        <li class="nav-item">
-          <a class="nav-link" href="/accounts/logout">Logout</a>
+        <span>Logged in as {{ user.username|title }} | </span>
+        <li>
+          <a href="/accounts/logout">Logout</a>
         </li>
         {% else %}
-        <li class="nav-item">
-          <a class="nav-link" href="/accounts/login">Login</a>
+        <li>
+          <a href="/accounts/login">Login</a>
         </li>
         {% endif %}
       </div>
