@@ -35,6 +35,7 @@ class Person(models.Model):
     profile_path = models.URLField(blank=True, default=None, null=True)
     known_for_department = models.CharField(max_length=100, blank=True)
     tmdb_id = models.IntegerField(blank=True, unique=True, default=None)
+    biography = models.TextField(blank=True, default=None, null=True)
 
     def __str__(self):
         return self.name

@@ -2,6 +2,8 @@ from django.shortcuts import render
 from .models import *
 import json
 from app.utils import fetchTMDBApi
+from django.contrib.auth.views import LoginView
+from .forms import CustomLoginForm, CustomRegisterForm
 
 
 def getMoviesList(request):
@@ -65,6 +67,7 @@ def getPersonDetails(request, id):
                 profile_path=data["profile_path"],
                 known_for_department=data["known_for_department"],
                 tmdb_id=data["id"],
+                biography=data["biography"],
             )
 
             createdPerson = Person.objects.filter(tmdb_id=id).first()
@@ -84,3 +87,8 @@ def getPersonDetails(request, id):
     except Exception as e:
         print(e)
         return render(request, "404.html", {"message": "error"})
+
+
+class CustomLoginView(LoginView):
+    form_class = CustomLoginForm
+    template_name = "login.html"

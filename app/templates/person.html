@@ -1,4 +1,20 @@
 {% extends 'layout.html' %} {% block content %}
-
-<h2>{{ person.name }}</h2>
+<div class="page">
+  <a class="return" href="{{ request.META.HTTP_REFERER }}">Go back</a>
+  <div class="page_title">
+    <h1>{{ person.name }}</h1>
+  </div>
+  <div class="page_content">
+    <div class="page_image">
+      <img
+        src="https://image.tmdb.org/t/p/w600_and_h900_bestv2{{ person.profile_path }}"
+        alt="{{ person.name }}"
+        loading="lazy"
+      />
+    </div>
+    <div class="page_description">
+      <p>{{ person.biography }}</p>
+    </div>
+  </div>
+</div>
 {% endblock %}

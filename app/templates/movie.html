@@ -1,19 +1,19 @@
 {% extends 'layout.html' %} {% block content %}
 
-<div class="movie_page">
+<div class="page">
   <a href="{% url 'home' %}" class="return">Return to movies page</a>
-  <div class="movie_page_title">
+  <div class="page_title">
     <h1>{{ movie.title }}</h1>
   </div>
-  <div class="movie_page_content">
-    <div class="movie_page_image">
+  <div class="page_content">
+    <div class="page_image">
       <img
         src="https://image.tmdb.org/t/p/original{{ movie.poster_path }}"
         alt="{{ movie.title }}"
         loading="lazy"
       />
     </div>
-    <div class="movie_page_description">
+    <div class="page_description">
       <p>{{ movie.overview }}</p>
       {% if genres %}
       <h3>Genres</h3>
