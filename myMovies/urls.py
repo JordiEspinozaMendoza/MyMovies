@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import path
-from app.views import movie, movieReview, person, auth
+from app.views import movie, movieReview, person, auth, recommendations
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [
@@ -13,4 +13,9 @@ urlpatterns = [
     path("people/<int:id>", person.getPersonDetails, name="personDetails"),
     path("movies/", movie.getMoviesList, name="movies"),
     path("submitReview/<int:id>", movieReview.submitReview, name="submitReview"),
+    path(
+        "recommendations/",
+        recommendations.getRecommendations,
+        name="recommendations",
+    ),
 ]

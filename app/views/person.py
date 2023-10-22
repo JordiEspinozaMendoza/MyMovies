@@ -2,6 +2,8 @@ from app.models import Person
 from django.shortcuts import render
 import json
 from app.utils import fetchTMDBApi
+import os
+import sys
 
 
 def getPersonDetails(request, id):
@@ -41,5 +43,11 @@ def getPersonDetails(request, id):
         )
 
     except Exception as e:
-        print(e)
-        return render(request, "404.html", {"message": "error"})
+        print(f"Error: {e}, line: {sys.exc_info()[-1].tb_lineno}")
+
+        message = "Error while loading person"
+
+        if os.environ.get("DEBUG") == "True":
+            message = e
+
+        return render(request, "404.html", {"message": message})

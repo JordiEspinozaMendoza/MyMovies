@@ -8,6 +8,8 @@ def submitReview(request, id):
         movie = Movie.objects.get(tmdb_id=id)
         form = MovieReviewForm(request.POST)
 
+        movieReviews = MovieReview.objects.filter(movie=movie)
+
         if form.is_valid():
             MovieReview.objects.create(
                 movie=movie,
@@ -25,6 +27,7 @@ def submitReview(request, id):
                     "movieCredits": MovieCredit.objects.filter(movie=movie),
                     "form": MovieReviewForm(),
                     "message": "Review submitted successfully.",
+                    "reviews": movieReviews,
                 },
             )
 
@@ -37,6 +40,7 @@ def submitReview(request, id):
                 "movieCredits": MovieCredit.objects.filter(movie=movie),
                 "form": form,
                 "message": "Invalid form.",
+                "reviews": movieReviews,
             },
         )
 

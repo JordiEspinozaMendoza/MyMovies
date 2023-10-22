@@ -1,7 +1,15 @@
 {% extends 'layout.html' %} {% block content %}
 
-<h1>Not found</h1>
+<div class="error_page">
+  <h2>There was an error with your request. <br /></h2>
 
-<span> {{ message }} </span>
+  <span> {{ message }} </span>
+  <img
+    src="https://media.tenor.com/_XgpJ0xfp-4AAAAC/writing-kermit.gif"
+    alt="kermit"
+  />
+
+  <a href="{% url 'home' %}">Go back to home</a>
+</div>
 
 {% endblock content%}

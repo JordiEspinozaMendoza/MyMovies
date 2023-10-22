@@ -21,6 +21,13 @@ nav a {
     text-decoration: none;
 }
 
+nav .nav_menu {
+    display: flex;
+    flex-direction: row;
+    font-size: 0.7rem;
+    gap: 1rem;
+}
+
 
 footer {
     display: flex;
@@ -167,6 +174,19 @@ button {
     border-radius: 4px;
     cursor: pointer;
     width: auto;
+}
+
+.error_page {
+    display: flex;
+    flex-direction: column;
+    min-height: 90vh;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.error_page span {
+    font-size: 1.2rem;
 }
 
 

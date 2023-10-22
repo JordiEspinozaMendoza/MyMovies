@@ -16,12 +16,11 @@
     <nav>
       <a href="{% url 'home' %}">Home</a>
 
-      <div>
+      <div class="nav_menu">
         {% if user.is_authenticated %}
+        <a href="{% url 'recommendations' %}">Recommendations</a>
         <span>Logged in as {{ user.username|title }} | </span>
-        <li>
-          <a href="/accounts/logout">Logout</a>
-        </li>
+        <a href="/accounts/logout">Logout</a>
         {% else %}
         <li>
           <a href="/accounts/login">Login</a>

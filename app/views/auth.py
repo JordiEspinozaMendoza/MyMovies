@@ -8,6 +8,9 @@ class CustomLoginView(LoginView):
     form_class = CustomLoginForm
     template_name = "login.html"
 
+    def get_success_url(self):
+        return "/"
+
 
 def CustomSignUpView(request):
     if request.user.is_authenticated:
