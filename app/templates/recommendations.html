@@ -1,1 +1,20 @@
-{% extends 'layout.html' %} {% block content %} {% endblock content%}
+{% extends 'layout.html' %} {% load static %} {% block content %}
+
+<h1>Your recommendations based in your reviews</h1>
+
+<div class="movies_list">
+  {% for movie in movies %}
+  <div class="movie_item">
+    <div class="movie_poster">
+      <a href="{% url 'movieDetails' movie.tmdb_id %}">
+        <img
+          src="https://image.tmdb.org/t/p/original{{ movie.poster_path }}"
+          alt="{{ movie.title }}"
+        />
+      </a>
+    </div>
+    <h2>{{ movie.title }}</h2>
+  </div>
+  {% endfor %}
+</div>
+{% endblock content%}

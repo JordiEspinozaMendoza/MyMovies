@@ -4,6 +4,7 @@ from django.shortcuts import render
 import sys
 import pandas as pd
 import math
+from math import sqrt
 import os
 
 
@@ -28,15 +29,6 @@ def getRecommendations(request):
         if moviesReviewed.empty:
             return render(request, "recommendations.html", {"movies": []})
 
-        movies_df = pd.DataFrame(
-            list(
-                Movie.objects.all().values(
-                    "id",
-                    "title",
-                )
-            )
-        ).rename(columns={"id": "movie_id"})
-
         ratings_df = pd.DataFrame(
             list(
                 MovieReview.objects.all().values(
@@ -50,7 +42,6 @@ def getRecommendations(request):
         userSubset = ratings_df[
             ratings_df["movie_id"].isin(moviesReviewed["movie_id"].tolist())
         ]
-        print(userSubset.head())
         userSubsetGroup = userSubset.groupby(["user_id"])
         userSubsetGroup = sorted(userSubsetGroup, key=lambda x: len(x[1]), reverse=True)
 
@@ -60,7 +51,7 @@ def getRecommendations(request):
         for name, group in userSubsetGroup:
             group = group.sort_values(by="movie_id")
             moviesReviewed = moviesReviewed.sort_values(by="movie_id")
-
+            nRatings = len(group)
             temp_df = moviesReviewed[
                 moviesReviewed["movie_id"].isin(group["movie_id"].tolist())
             ]
@@ -68,26 +59,58 @@ def getRecommendations(request):
             tempRatingList = temp_df["rating"].tolist()
             tempGroupList = group["rating"].tolist()
 
-            data_corr = {
-                "tempGroupList": tempGroupList,
-                "tempRatingList": tempRatingList,
-            }
+            Sxx = sum([i**2 for i in tempRatingList]) - pow(
+                sum(tempRatingList), 2
+            ) / float(nRatings)
+            Syy = sum([i**2 for i in tempGroupList]) - pow(
+                sum(tempGroupList), 2
+            ) / float(nRatings)
+            Sxy = sum(i * j for i, j in zip(tempRatingList, tempGroupList)) - sum(
+                tempRatingList
+            ) * sum(tempGroupList) / float(nRatings)
 
-            print(data_corr)
-
-            pd_corr = pd.DataFrame(data_corr)
-            r = pd_corr.corr(method="pearson")["tempRatingList"]["tempGroupList"]
-
-            if math.isnan(r):
-                r = 0
-            pearsonCorrelationDict[name] = r
+            if Sxx != 0 and Syy != 0:
+                pearsonCorrelationDict[name] = Sxy / sqrt(Sxx * Syy)
+            else:
+                pearsonCorrelationDict[name] = 0
 
         pearsonDf = pd.DataFrame.from_dict(pearsonCorrelationDict, orient="index")
         pearsonDf.columns = ["similarityIndex"]
+        pearsonDf.index = (
+            pearsonDf.index.map(str)
+            .map(lambda x: x.replace("(", ""))
+            .map(lambda x: x.replace(",)", ""))
+        )
         pearsonDf["user_id"] = pearsonDf.index
+        pearsonDf["user_id"] = pearsonDf["user_id"].astype(int)
         pearsonDf.index = range(len(pearsonDf))
 
-        return render(request, "recommendations.html", {"movies": moviesReviewed})
+        topUsers = pearsonDf.sort_values(by="similarityIndex", ascending=False)[0:50]
+        topUsersRating = topUsers.merge(
+            ratings_df, left_on="user_id", right_on="user_id", how="inner"
+        )
+        topUsersRating["weightedRating"] = (
+            topUsersRating["similarityIndex"] * topUsersRating["rating"]
+        )
+        tempTopUsersRating = topUsersRating.groupby("movie_id").sum()[
+            ["similarityIndex", "weightedRating"]
+        ]
+        tempTopUsersRating.columns = ["sum_similarityIndex", "sum_weightedRating"]
+
+        recommendation_df = pd.DataFrame()
+        recommendation_df["weighted average recommendation score"] = (
+            tempTopUsersRating["sum_weightedRating"]
+            / tempTopUsersRating["sum_similarityIndex"]
+        )
+        recommendation_df["movie_id"] = tempTopUsersRating.index
+
+        recommendation_df = recommendation_df.sort_values(
+            by="weighted average recommendation score", ascending=False
+        )[0:10]
+
+        movies = Movie.objects.filter(id__in=recommendation_df["movie_id"].tolist())
+
+        return render(request, "recommendations.html", {"movies": movies})
     except Exception as e:
         print(f"Error: {e}, line: {sys.exc_info()[-1].tb_lineno}")
 
