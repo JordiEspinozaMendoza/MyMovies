@@ -3,6 +3,8 @@
 Luis Alejandro Fierro Vivian - 19211637
 Jordi Espinoza Mendoza - 19211633
 
+Video: https://www.loom.com/share/ac1148645662457ea9318a78c6380610?sid=6fd329ba-911a-4be5-aec7-4e019557a987
+
 # MyMovies Project
 
 Project for the course "Programacion Web" of Instituto Tecnologico de Tijuana.
