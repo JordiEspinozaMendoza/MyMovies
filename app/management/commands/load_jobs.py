@@ -10,7 +10,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         response = fetchTMDBApi("/configuration/jobs")
 
-        jobs = json.dumps(response)
+        jobs = json.dumps(response.json())
 
         try:
             for job in json.loads(jobs):
