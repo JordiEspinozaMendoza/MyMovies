@@ -1,3 +1,8 @@
+## Team members
+
+Luis Alejandro Fierro Vivian - 19211637
+Jordi Espinoza Mendoza - 19211633
+
 # MyMovies Project
 
 Project for the course "Programacion Web" of Instituto Tecnologico de Tijuana.
@@ -66,7 +71,7 @@ Enjoy!
 
 ## Team members
 
-Luis Alejandro Fierro Vivian
-Jordi Espinoza Mendoza @JordiEspinozaMendoza
+Luis Alejandro Fierro Vivian - 19211637
+Jordi Espinoza Mendoza - 19211633
 
 ![](https://media.tenor.com/_XgpJ0xfp-4AAAAC/writing-kermit.gif)

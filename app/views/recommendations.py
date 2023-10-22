@@ -1,9 +1,7 @@
 from app.models import Movie, MovieReview
-from django.contrib.auth.models import User
 from django.shortcuts import render
 import sys
 import pandas as pd
-import math
 from math import sqrt
 import os
 
