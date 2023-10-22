@@ -13,6 +13,7 @@ numpy==1.26.1
 packaging==23.2
 pandas==2.1.1
 Pillow==10.1.0
+psycopg==3.1.12
 pyparsing==3.1.1
 python-dateutil==2.8.2
 python-dotenv==1.0.0

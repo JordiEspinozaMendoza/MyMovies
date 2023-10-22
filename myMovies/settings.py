@@ -78,12 +78,30 @@ WSGI_APPLICATION = "myMovies.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+if os.environ.get("ENVIRONMENT") == "dev":
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
     }
-}
+else:
+    PG_NAME = os.environ.get("PG_NAME")
+    PG_USER = os.environ.get("PG_USER")
+    PG_PASSWORD = os.environ.get("PG_PASSWORD")
+    PG_HOST = os.environ.get("PG_HOST")
+    PG_PORT = os.environ.get("PG_PORT")
+
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.postgresql",
+            "NAME": os.environ.get("PG_NAME"),
+            "USER": os.environ.get("PG_USER"),
+            "PASSWORD": os.environ.get("PG_PASSWORD"),
+            "HOST": os.environ.get("PG_HOST"),
+            "PORT": os.environ.get("PG_PORT"),
+        }
+    }
 
 
 # Password validation
